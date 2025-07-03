@@ -1,0 +1,101 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Faculty - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Manage Faculty</h1>
+    <a href="{{ url_for('admin_add_faculty') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add Faculty
+    </a>
+</div>
+
+<!-- Faculty List -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">Faculty Members</h5>
+    </div>
+    <div class="card-body">
+        {% if faculty_members %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Faculty</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Experience</th>
+                            <th>Status</th>
+                            <th width="120">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for faculty in faculty_members %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    {% if faculty.image_url %}
+                                        <img src="{{ faculty.image_url }}" alt="{{ faculty.name }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            {{ faculty.name[:2].upper() }}
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <strong>{{ faculty.name }}</strong>
+                                        {% if faculty.qualification %}
+                                            <br><small class="text-muted">{{ faculty.qualification }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ faculty.department }}</td>
+                            <td>{{ faculty.position }}</td>
+                            <td>{{ faculty.experience or '-' }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if faculty.is_active else 'secondary' }}">
+                                    {{ 'Active' if faculty.is_active else 'Inactive' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" title="Edit" onclick="editFaculty({{ faculty.id }})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger" title="Delete" onclick="deleteFaculty({{ faculty.id }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No faculty members found</h5>
+                <p class="text-muted">Add your first faculty member to get started.</p>
+                <a href="{{ url_for('admin_add_faculty') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Add Faculty
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editFaculty(id) {
+    window.location.href = '/admin/faculty/edit/' + id;
+}
+
+function deleteFaculty(id) {
+    if (confirm('Are you sure you want to delete this faculty member?')) {
+        window.location.href = '/admin/faculty/delete/' + id;
+    }
+}
+</script>
+{% endblock %}

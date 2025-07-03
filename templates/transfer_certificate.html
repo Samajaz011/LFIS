@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block title %}Transfer Certificate{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-certificate me-2"></i>
+                        Transfer Certificate
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.admission_number.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-id-card"></i>
+                                </span>
+                                {{ form.admission_number(class="form-control", placeholder="Enter your admission number") }}
+                            </div>
+                            {% if form.admission_number.errors %}
+                                <div class="text-danger mt-1">{{ form.admission_number.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Search Transfer Certificate
+                            </button>
+                        </div>
+                    </form>
+                    
+                    {% if tc %}
+                        <div class="alert alert-success mt-4">
+                            <h5 class="alert-heading">
+                                <i class="fas fa-check-circle me-2"></i>Transfer Certificate Found
+                            </h5>
+                            <p class="mb-3">Your transfer certificate is available for download.</p>
+                            <div class="d-grid">
+                                <a href="{{ url_for('download_tc', id=tc.id) }}" 
+                                   class="btn btn-success">
+                                    <i class="fas fa-download me-2"></i>Download Transfer Certificate
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow mt-4">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Need Help?</h6>
+                    <p class="card-text small text-muted">
+                        If you cannot find your transfer certificate or need assistance, 
+                        please contact the school office.
+                    </p>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-sm">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

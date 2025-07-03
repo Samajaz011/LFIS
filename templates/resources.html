@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Resources & Downloads - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Resources & Downloads</h1>
+                <p class="lead">Access important documents, forms, policies, and educational resources.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g905a3fb0570104a959bc4006fbf34c8eecccacd83f4a4eee1b6e8ad5381ce4104223db285f12fbda1c431f13e9bc3afee312b3bfd7a8a70575fb55b6318fe15c_1280.jpg" 
+                     alt="Resources" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resource Filter -->
+<section class="py-3 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-0">Filter Resources</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('resources', category='all') }}" class="btn {% if current_category == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+                    <a href="{{ url_for('resources', category='forms') }}" class="btn {% if current_category == 'forms' %}btn-primary{% else %}btn-outline-primary{% endif %}">Forms</a>
+                    <a href="{{ url_for('resources', category='policies') }}" class="btn {% if current_category == 'policies' %}btn-primary{% else %}btn-outline-primary{% endif %}">Policies</a>
+                    <a href="{{ url_for('resources', category='resources') }}" class="btn {% if current_category == 'resources' %}btn-primary{% else %}btn-outline-primary{% endif %}">Study Materials</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resources Grid -->
+<section class="py-5">
+    <div class="container">
+        {% if documents %}
+            <div class="row g-4">
+                {% for doc in documents %}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="file-icon bg-primary text-white rounded-circle me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    {% if doc.file_type == 'pdf' %}
+                                        <i class="fas fa-file-pdf"></i>
+                                    {% elif doc.file_type in ['doc', 'docx'] %}
+                                        <i class="fas fa-file-word"></i>
+                                    {% elif doc.file_type in ['xls', 'xlsx'] %}
+                                        <i class="fas fa-file-excel"></i>
+                                    {% elif doc.file_type in ['ppt', 'pptx'] %}
+                                        <i class="fas fa-file-powerpoint"></i>
+                                    {% else %}
+                                        <i class="fas fa-file"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="badge bg-primary mb-2">{{ doc.category.title() }}</span>
+                                    <h6 class="fw-bold">{{ doc.title }}</h6>
+                                </div>
+                            </div>
+                            
+                            {% if doc.description %}
+                            <p class="text-muted small mb-3">{{ doc.description }}</p>
+                            {% endif %}
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>{{ doc.created_at.strftime('%B %d, %Y') }}
+                                </small>
+                                {% if doc.file_size %}
+                                <small class="text-muted">
+                                    <i class="fas fa-file me-1"></i>{{ (doc.file_size / 1024 / 1024)|round(2) }} MB
+                                </small>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ url_for('download_document', id=doc.id) }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-download me-1"></i>Download
+                                </a>
+                                <small class="text-muted">{{ doc.download_count }} downloads</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <div class="empty-state">
+                    <i class="fas fa-folder-open fa-4x text-muted mb-4"></i>
+                    <h3 class="text-muted">No Resources Available</h3>
+                    <p class="text-muted">
+                        {% if current_category != 'all' %}
+                            No documents found in the {{ current_category }} category.
+                        {% else %}
+                            Resources and documents will be available here once they are uploaded by the administration.
+                        {% endif %}
+                    </p>
+                    {% if current_category != 'all' %}
+                    <a href="{{ url_for('resources', category='all') }}" class="btn btn-primary">View All Resources</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Quick Links -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Quick Access</h2>
+            <p class="lead text-muted">Commonly requested resources and information</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="quick-link-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h6 class="fw-bold">Admission Forms</h6>
+                        <p class="text-muted small">Application forms and required documents</p>
+                        <a href="{{ url_for('resources', category='forms') }}" class="btn btn-outline-primary btn-sm">Access Forms</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="quick-link-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h6 class="fw-bold">Academic Calendar</h6>
+                        <p class="text-muted small">Important dates and schedules</p>
+                        <a href="{{ url_for('academics') }}" class="btn btn-outline-success btn-sm">View Calendar</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="quick-link-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h6 class="fw-bold">School Policies</h6>
+                        <p class="text-muted small">Rules, regulations, and guidelines</p>
+                        <a href="{{ url_for('resources', category='policies') }}" class="btn btn-outline-warning btn-sm">View Policies</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="quick-link-icon bg-info text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <h6 class="fw-bold">Library System</h6>
+                        <p class="text-muted small">Access online library resources</p>
+                        <a href="{{ url_for('library') }}" class="btn btn-outline-info btn-sm">Visit Library</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Help Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="display-6 fw-bold text-primary mb-4">Need Help?</h2>
+                <p class="lead text-muted mb-4">
+                    Can't find what you're looking for? Our support team is here to help you access the resources you need.
+                </p>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone text-primary me-3"></i>
+                            <span>Call us at +91 123 456 7890</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope text-primary me-3"></i>
+                            <span>Email us at info@littleflower.edu</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock text-primary me-3"></i>
+                            <span>Office hours: Mon-Fri 8:00 AM - 5:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Contact Support</a>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/gef36f650d57565e83a95462dc584700aae4f6c28c0622f3cca817c2596c5bfadb203102a1917024949e537c875dba60da4fd92d6799865d9ddb318d2d1bae7fc_1280.jpg" 
+                     alt="Help Support" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

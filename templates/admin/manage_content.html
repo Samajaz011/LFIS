@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Content - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Manage School Content</h1>
+    <a href="{{ url_for('admin_add_content') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add Content
+    </a>
+</div>
+
+<!-- Section Filter -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h6 class="mb-0">Filter by Section</h6>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('admin_content', section='about') }}" class="btn {% if current_section == 'about' %}btn-primary{% else %}btn-outline-primary{% endif %}">About</a>
+                    <a href="{{ url_for('admin_content', section='mission') }}" class="btn {% if current_section == 'mission' %}btn-primary{% else %}btn-outline-primary{% endif %}">Mission</a>
+                    <a href="{{ url_for('admin_content', section='vision') }}" class="btn {% if current_section == 'vision' %}btn-primary{% else %}btn-outline-primary{% endif %}">Vision</a>
+                    <a href="{{ url_for('admin_content', section='facilities') }}" class="btn {% if current_section == 'facilities' %}btn-primary{% else %}btn-outline-primary{% endif %}">Facilities</a>
+                    <a href="{{ url_for('admin_content', section='activities') }}" class="btn {% if current_section == 'activities' %}btn-primary{% else %}btn-outline-primary{% endif %}">Activities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content List -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">{{ current_section.title() }} Content</h5>
+    </div>
+    <div class="card-body">
+        {% if content_items %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Order</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                            <th width="120">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in content_items %}
+                        <tr>
+                            <td>
+                                <strong>{{ item.title }}</strong>
+                                <br>
+                                <small class="text-muted">{{ item.content[:100] }}...</small>
+                            </td>
+                            <td>{{ item.order_index }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if item.is_active else 'secondary' }}">
+                                    {{ 'Active' if item.is_active else 'Inactive' }}
+                                </span>
+                            </td>
+                            <td>{{ item.updated_at.strftime('%m/%d/%Y') }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('admin_edit_content', id=item.id) }}" class="btn btn-outline-primary" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ url_for('admin_delete_content', id=item.id) }}" class="btn btn-outline-danger" title="Delete" onclick="return confirm('Are you sure?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No content found for {{ current_section }}</h5>
+                <p class="text-muted">Add your first content item to get started.</p>
+                <a href="{{ url_for('admin_add_content') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Add Content
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

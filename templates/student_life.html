@@ -1,0 +1,433 @@
+{% extends "base.html" %}
+
+{% block title %}Student Life - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Student Life</h1>
+                <p class="lead">Discover a vibrant community where learning extends beyond the classroom through diverse activities, clubs, and events.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g1f60573e512d34f3dcd2883d654b8df2e454ba828887b8a625c3723960dee5e35e5cdb0504741c208de8da6def8891c3ee64449bf5efc6b9751ab40e41a5ea16_1280.jpg" 
+                     alt="Student Life" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Activities Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Co-curricular Activities</h2>
+            <p class="lead text-muted">Explore your interests and develop new skills through our diverse activity programs</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-running fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Sports & Athletics</h5>
+                        <p class="text-muted">Football, Basketball, Cricket, Badminton, Swimming, Track & Field</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• Inter-house competitions</li>
+                            <li>• District level participation</li>
+                            <li>• Professional coaching</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-music fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Music & Dance</h5>
+                        <p class="text-muted">Vocal music, Instrumental music, Classical dance, Western dance</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• School orchestra</li>
+                            <li>• Annual cultural events</li>
+                            <li>• Music competitions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-palette fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Arts & Crafts</h5>
+                        <p class="text-muted">Painting, Drawing, Pottery, Handicrafts, Creative arts</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• Art exhibitions</li>
+                            <li>• Creative workshops</li>
+                            <li>• Art competitions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-info text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-theater-masks fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Drama & Theater</h5>
+                        <p class="text-muted">Stage performances, Public speaking, Debate, Elocution</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• Annual drama production</li>
+                            <li>• Speech competitions</li>
+                            <li>• Debate tournaments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-danger text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-robot fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Science & Technology</h5>
+                        <p class="text-muted">Robotics, Science club, Technology projects, Innovation lab</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• Science fairs</li>
+                            <li>• Robotics competitions</li>
+                            <li>• Innovation projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="activity-icon bg-secondary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-hands-helping fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Community Service</h5>
+                        <p class="text-muted">Environmental club, Social service, Charity drives, Volunteer work</p>
+                        <ul class="list-unstyled small text-muted">
+                            <li>• Community outreach</li>
+                            <li>• Environmental initiatives</li>
+                            <li>• Charity events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Clubs & Societies -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Clubs & Societies</h2>
+            <p class="lead text-muted">Join like-minded peers and explore your passions</p>
+        </div>
+        
+        <div class="row g-4">
+            {% if clubs %}
+                {% for club in clubs %}
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="club-icon bg-primary text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-primary">{{ club.title }}</h5>
+                                    <p class="text-muted">{{ club.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="club-icon bg-primary text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-primary">Literary Society</h5>
+                                    <p class="text-muted">For students passionate about literature, creative writing, and poetry. Regular meetings include book discussions, writing workshops, and literary events.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="club-icon bg-success text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-primary">Photography Club</h5>
+                                    <p class="text-muted">Learn the art of photography, participate in photo walks, and showcase your work in exhibitions. Equipment and guidance provided.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="club-icon bg-warning text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-chess"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-primary">Chess Club</h5>
+                                    <p class="text-muted">Develop strategic thinking and logical reasoning through chess. Regular tournaments and coaching for all skill levels.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start">
+                                <div class="club-icon bg-info text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-primary">Eco Club</h5>
+                                    <p class="text-muted">Promote environmental awareness through green initiatives, tree planting, recycling drives, and sustainability projects.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Student Council -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="display-6 fw-bold text-primary mb-4">Student Council</h2>
+                <p class="lead text-muted mb-4">
+                    Our Student Council provides leadership opportunities and gives students a voice in school governance. Members represent their peers and work closely with faculty to improve school life.
+                </p>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-users text-primary me-3"></i>
+                            <span>Student representation in school committees</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-megaphone text-primary me-3"></i>
+                            <span>Organizing school events and activities</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-handshake text-primary me-3"></i>
+                            <span>Peer mentoring and support programs</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-lightbulb text-primary me-3"></i>
+                            <span>Innovation and improvement initiatives</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g6ef8c0173b761fa84c920f943297acf7be97a017db8c115f82f96f915181e99989da887e37a58def92c2c8b2ee10eeae2b124dd67447e45e3a69a3566c341007_1280.jpg" 
+                     alt="Student Council" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- House System -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">House System</h2>
+            <p class="lead text-muted">Foster healthy competition and team spirit through our house system</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="house-icon bg-danger text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-fire fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Red House</h5>
+                        <p class="text-muted">Courage • Determination • Leadership</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="house-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-water fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Blue House</h5>
+                        <p class="text-muted">Wisdom • Loyalty • Perseverance</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="house-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-leaf fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Green House</h5>
+                        <p class="text-muted">Growth • Harmony • Excellence</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="house-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-sun fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Yellow House</h5>
+                        <p class="text-muted">Joy • Creativity • Innovation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Annual Events -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Annual Events & Celebrations</h2>
+            <p class="lead text-muted">Memorable occasions that bring our school community together</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h5 class="fw-bold">Sports Day</h5>
+                        <p class="text-muted">Annual athletics meet with inter-house competitions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-theater-masks"></i>
+                        </div>
+                        <h5 class="fw-bold">Cultural Day</h5>
+                        <p class="text-muted">Showcase of music, dance, and dramatic performances</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h5 class="fw-bold">Science Fair</h5>
+                        <p class="text-muted">Student projects and scientific innovation exhibition</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-info text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5 class="fw-bold">Graduation Day</h5>
+                        <p class="text-muted">Celebrating our graduating students' achievements</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-danger text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h5 class="fw-bold">Charity Drive</h5>
+                        <p class="text-muted">Community service and fundraising events</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="event-icon bg-secondary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h5 class="fw-bold">Festival Celebrations</h5>
+                        <p class="text-muted">Cultural festivals and national holiday celebrations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-4">Be Part of Our Vibrant Community!</h2>
+                <p class="lead mb-4">Join us and discover your potential through our diverse range of activities and programs.</p>
+                <a href="{{ url_for('admissions') }}" class="btn btn-light btn-lg">Apply Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

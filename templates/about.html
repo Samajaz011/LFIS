@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">About Little Flower International School</h1>
+                <p class="lead">Committed to excellence in education and the holistic development of every student.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/geab9507e39fcc7ccdb8de9252456e785a0a7b00f5254abd50d0fdd8183bb328b54b5d4bb13fd0e9b317c4386b3eeae8b0262c9c05f51094c3fb7a147dc189b45_1280.jpg" 
+                     alt="School Building" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission, Vision, Values -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-box bg-primary text-white rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-bullseye fa-2x"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-primary mb-3">Our Mission</h3>
+                        {% if mission %}
+                            <p class="text-muted">{{ mission.content }}</p>
+                        {% else %}
+                            <p class="text-muted">To provide quality education that develops critical thinking, creativity, and character in every student, preparing them for success in a global society.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-box bg-success text-white rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-eye fa-2x"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-primary mb-3">Our Vision</h3>
+                        {% if vision %}
+                            <p class="text-muted">{{ vision.content }}</p>
+                        {% else %}
+                            <p class="text-muted">To be a leading educational institution that nurtures confident, compassionate, and capable individuals who contribute positively to society.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="icon-box bg-warning text-white rounded-circle mx-auto mb-4" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-heart fa-2x"></i>
+                        </div>
+                        <h3 class="h4 fw-bold text-primary mb-3">Our Values</h3>
+                        {% if values %}
+                            <p class="text-muted">{{ values.content }}</p>
+                        {% else %}
+                            <p class="text-muted">Excellence, Integrity, Compassion, Innovation, and Respect for diversity - these values guide everything we do at Little Flower.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Content -->
+{% if about_sections %}
+<section class="py-5 bg-light">
+    <div class="container">
+        {% for section in about_sections %}
+        <div class="row align-items-center mb-5 {% if loop.index % 2 == 0 %}flex-row-reverse{% endif %}">
+            <div class="col-lg-6" data-aos="fade-{% if loop.index % 2 == 0 %}left{% else %}right{% endif %}">
+                {% if section.image_url %}
+                <img src="{{ section.image_url }}" alt="{{ section.title }}" class="img-fluid rounded-3 shadow">
+                {% else %}
+                <img src="https://pixabay.com/get/g0e87232324734b7ba2cb914692578be8036e3e6a5c0c0686ab9030cdb39effa1fac68945dcea2c3f9d6c288104ed9d77abecf6028a91800eef3a8cf420677208_1280.jpg" 
+                     alt="{{ section.title }}" class="img-fluid rounded-3 shadow">
+                {% endif %}
+            </div>
+            <div class="col-lg-6" data-aos="fade-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %}">
+                <h2 class="display-6 fw-bold text-primary mb-4">{{ section.title }}</h2>
+                <p class="lead text-muted">{{ section.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- History Section -->
+{% if history %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Our History</h2>
+            <p class="lead text-muted">A legacy of educational excellence</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+                            <h3 class="fw-bold">{{ history.title }}</h3>
+                        </div>
+                        <p class="text-muted">{{ history.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Leadership Team -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Leadership Team</h2>
+            <p class="lead text-muted">Meet our dedicated educational leaders</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <img src="https://via.placeholder.com/150x150/2E86AB/FFFFFF?text=Principal" alt="Principal" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h5 class="fw-bold text-primary">Dr. Sarah Johnson</h5>
+                        <p class="text-muted mb-2">Principal</p>
+                        <p class="small text-muted">M.Ed., Ph.D. in Educational Leadership with 20+ years of experience in progressive education.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <img src="https://via.placeholder.com/150x150/A23B72/FFFFFF?text=VP" alt="Vice Principal" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h5 class="fw-bold text-primary">Mr. David Chen</h5>
+                        <p class="text-muted mb-2">Vice Principal (Academics)</p>
+                        <p class="small text-muted">M.Sc., M.Ed. with expertise in curriculum development and educational assessment.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <img src="https://via.placeholder.com/150x150/F18F01/FFFFFF?text=Admin" alt="Admin Head" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h5 class="fw-bold text-primary">Ms. Emily Rodriguez</h5>
+                        <p class="text-muted mb-2">Head of Administration</p>
+                        <p class="small text-muted">MBA in Educational Management with focus on operational excellence and student services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Awards and Recognition -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Awards & Recognition</h2>
+            <p class="lead text-muted">Our achievements and accolades</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center">
+                    <div class="icon-box bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-trophy fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Excellence in Education</h5>
+                    <p class="text-muted">State Education Board Award 2023</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center">
+                    <div class="icon-box bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-medal fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Best Infrastructure</h5>
+                    <p class="text-muted">Regional Schools Award 2022</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center">
+                    <div class="icon-box bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-star fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Innovation in Teaching</h5>
+                    <p class="text-muted">National Education Innovation Award 2021</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="text-center">
+                    <div class="icon-box bg-info text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-certificate fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Green School Certification</h5>
+                    <p class="text-muted">Environmental Excellence Award 2020</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

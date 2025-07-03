@@ -1,0 +1,76 @@
+{% extends "admin/base.html" %}
+```
+```
+{% block title %}Add Transfer Certificate - Admin Panel{% endblock %}
+```
+```
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Add Transfer Certificate</h1>
+    <a href="{{ url_for('admin_transfer_certificates') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to TCs
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Upload Transfer Certificate</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.admission_number.label(class="form-label") }}
+                        {{ form.admission_number(class="form-control") }}
+                        {% if form.admission_number.errors %}
+                            <div class="text-danger">{{ form.admission_number.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.tc_file.label(class="form-label") }}
+                        {{ form.tc_file(class="form-control") }}
+                        {% if form.tc_file.errors %}
+                            <div class="text-danger">{{ form.tc_file.errors[0] }}</div>
+                        {% endif %}
+                        <small class="text-muted">Upload the Transfer Certificate document (PDF or image)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.is_issued(class="form-check-input") }}
+                            {{ form.is_issued.label(class="form-check-label") }}
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('admin_transfer_certificates') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload me-2"></i>Upload Transfer Certificate
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Instructions</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Enter the correct admission number</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Upload a clear PDF or image file</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ensure the document is readable</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mark as issued when ready for students</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

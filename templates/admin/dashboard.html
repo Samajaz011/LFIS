@@ -1,0 +1,202 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Dashboard</h1>
+    <div class="text-muted">
+        <i class="fas fa-calendar me-1"></i>
+        Today
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="stat-icon bg-primary">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="stat-number">{{ stats.total_news }}</div>
+                        <div class="stat-label">News Articles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="stat-icon bg-success">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="stat-number">{{ stats.total_faculty }}</div>
+                        <div class="stat-label">Faculty Members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="stat-icon bg-warning">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="stat-number">{{ stats.unread_contacts }}</div>
+                        <div class="stat-label">Unread Messages</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="stat-icon bg-info">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="stat-number">{{ stats.pending_admissions }}</div>
+                        <div class="stat-label">Pending Admissions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Recent Contact Messages</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_contacts %}
+                    {% for contact in recent_contacts %}
+                    <div class="d-flex align-items-start mb-3 {% if not loop.last %}border-bottom pb-3{% endif %}">
+                        <div class="flex-shrink-0">
+                            <div class="avatar bg-primary">
+                                {{ contact.name[0].upper() }}
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-1">{{ contact.name }}</h6>
+                                <small class="text-muted">{{ contact.created_at.strftime('%m/%d/%Y') }}</small>
+                            </div>
+                            <p class="mb-1 text-muted">{{ contact.subject }}</p>
+                            <small class="text-muted">{{ contact.message[:100] }}...</small>
+                        </div>
+                        {% if not contact.is_read %}
+                        <span class="badge bg-warning">New</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('admin_contacts') }}" class="btn btn-outline-primary">View All Messages</a>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-envelope fa-2x mb-3"></i>
+                        <p>No recent contact messages</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Recent Admissions</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_admissions %}
+                    {% for admission in recent_admissions %}
+                    <div class="d-flex align-items-center mb-3 {% if not loop.last %}border-bottom pb-3{% endif %}">
+                        <div class="flex-shrink-0">
+                            <div class="avatar bg-success">
+                                {{ admission.student_name[0].upper() }}
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1">{{ admission.student_name }}</h6>
+                            <small class="text-muted">{{ admission.class_applying }} - {{ admission.created_at.strftime('%m/%d') }}</small>
+                        </div>
+                        <span class="badge bg-{{ 'success' if admission.status == 'approved' else 'warning' if admission.status == 'pending' else 'danger' }}">
+                            {{ admission.status.title() }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('admin_admissions') }}" class="btn btn-outline-success">View All Applications</a>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-graduation-cap fa-2x mb-3"></i>
+                        <p>No recent admissions</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-4 mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ url_for('admin_add_news') }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-plus me-2"></i>Add News
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ url_for('admin_add_faculty') }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-user-plus me-2"></i>Add Faculty
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ url_for('admin_add_content') }}" class="btn btn-outline-warning w-100">
+                            <i class="fas fa-edit me-2"></i>Add Content
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ url_for('admin_gallery') }}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-images me-2"></i>Manage Gallery
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Add Faculty - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Add Faculty Member</h1>
+    <a href="{{ url_for('admin_faculty') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Faculty
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Full Name *</label>
+                            {{ form.name(class="form-control") }}
+                            {% if form.name.errors %}
+                                <div class="text-danger small">{{ form.name.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="position" class="form-label">Position *</label>
+                            {{ form.position(class="form-control") }}
+                            {% if form.position.errors %}
+                                <div class="text-danger small">{{ form.position.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="department" class="form-label">Department *</label>
+                            {{ form.department(class="form-control") }}
+                            {% if form.department.errors %}
+                                <div class="text-danger small">{{ form.department.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="experience" class="form-label">Experience</label>
+                            {{ form.experience(class="form-control") }}
+                            {% if form.experience.errors %}
+                                <div class="text-danger small">{{ form.experience.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="qualification" class="form-label">Qualification</label>
+                            {{ form.qualification(class="form-control") }}
+                            {% if form.qualification.errors %}
+                                <div class="text-danger small">{{ form.qualification.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            {{ form.email(class="form-control") }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small">{{ form.email.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone</label>
+                            {{ form.phone(class="form-control") }}
+                            {% if form.phone.errors %}
+                                <div class="text-danger small">{{ form.phone.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="image" class="form-label">Upload Photo</label>
+                            {{ form.image(class="form-control") }}
+                            {% if form.image.errors %}
+                                <div class="text-danger small">{{ form.image.errors[0] }}</div>
+                            {% endif %}
+                            <small class="text-muted">Upload a photo (JPG, PNG, GIF)</small>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="image_url" class="form-label">OR Photo URL</label>
+                            {{ form.image_url(class="form-control") }}
+                            {% if form.image_url.errors %}
+                                <div class="text-danger small">{{ form.image_url.errors[0] }}</div>
+                            {% endif %}
+                            <small class="text-muted">Enter photo URL if not uploading a file</small>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="bio" class="form-label">Biography</label>
+                            {{ form.bio(class="form-control", rows="5") }}
+                            {% if form.bio.errors %}
+                                <div class="text-danger small">{{ form.bio.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="order_index" class="form-label">Display Order</label>
+                            {{ form.order_index(class="form-control") }}
+                            {% if form.order_index.errors %}
+                                <div class="text-danger small">{{ form.order_index.errors[0] }}</div>
+                            {% endif %}
+                            <small class="text-muted">Lower numbers appear first</small>
+                        </div>
+                        
+                        <div class="col-md-6 d-flex align-items-end">
+                            <div class="form-check">
+                                {{ form.is_active(class="form-check-input") }}
+                                <label class="form-check-label" for="is_active">
+                                    Active (visible on website)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save Faculty
+                                </button>
+                                <a href="{{ url_for('admin_faculty') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

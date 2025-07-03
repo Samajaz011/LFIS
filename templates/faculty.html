@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Our Faculty</h1>
+                <p class="lead">Meet our dedicated team of educators committed to academic excellence and student success.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/gf467d5c8c0140f5cc59482dc056bb7e7f0b2d76ea2d9e33ade527b0cfc656e651e8859290b5daf3ba7625f741a4df8e054968cef7ee34159d6cf1e8b76a92566_1280.jpg" 
+                     alt="Faculty" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Faculty by Department -->
+<section class="py-5">
+    <div class="container">
+        {% if faculty_by_dept %}
+            {% for department, faculty_list in faculty_by_dept.items() %}
+            <div class="mb-5">
+                <div class="text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-6 fw-bold text-primary">{{ department }} Department</h2>
+                    <div class="border-bottom border-primary w-25 mx-auto"></div>
+                </div>
+                
+                <div class="row g-4">
+                    {% for faculty in faculty_list %}
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 text-center">
+                                {% if faculty.image_url %}
+                                <img src="{{ faculty.image_url }}" alt="{{ faculty.name }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                                {% else %}
+                                <img src="https://via.placeholder.com/120x120/2E86AB/FFFFFF?text={{ faculty.name[:2] }}" alt="{{ faculty.name }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                                {% endif %}
+                                
+                                <h5 class="fw-bold text-primary">{{ faculty.name }}</h5>
+                                <p class="text-muted mb-2">{{ faculty.position }}</p>
+                                
+                                {% if faculty.qualification %}
+                                <p class="small text-muted mb-2"><strong>Qualification:</strong> {{ faculty.qualification }}</p>
+                                {% endif %}
+                                
+                                {% if faculty.experience %}
+                                <p class="small text-muted mb-3"><strong>Experience:</strong> {{ faculty.experience }}</p>
+                                {% endif %}
+                                
+                                {% if faculty.bio %}
+                                <p class="small text-muted mb-3">{{ faculty.bio[:100] }}...</p>
+                                {% endif %}
+                                
+                                <div class="d-flex justify-content-center gap-2">
+                                    {% if faculty.email %}
+                                    <a href="mailto:{{ faculty.email }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if faculty.phone %}
+                                    <a href="tel:{{ faculty.phone }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-phone"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center py-5">
+                <div class="empty-state">
+                    <i class="fas fa-users fa-4x text-muted mb-4"></i>
+                    <h3 class="text-muted">No Faculty Information Available</h3>
+                    <p class="text-muted">Faculty profiles will be displayed here once they are added by the administration.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Faculty Highlights -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Why Our Faculty is Special</h2>
+            <p class="lead text-muted">What makes our educators stand out</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center">
+                    <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Highly Qualified</h5>
+                    <p class="text-muted">All faculty members hold advanced degrees in their respective fields</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center">
+                    <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-award fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Experienced</h5>
+                    <p class="text-muted">Years of teaching experience and proven track record of student success</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center">
+                    <div class="feature-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Passionate</h5>
+                    <p class="text-muted">Dedicated to inspiring and nurturing every student's potential</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="text-center">
+                    <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-lightbulb fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">innovative</h5>
+                    <p class="text-muted">Constantly updating teaching methods with modern pedagogical approaches</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Professional Development -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="display-6 fw-bold text-primary mb-4">Continuous Professional Development</h2>
+                <p class="lead text-muted mb-4">
+                    Our faculty regularly participates in professional development programs to stay updated with the latest educational trends and methodologies.
+                </p>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-3"></i>
+                            <span>Regular training workshops and seminars</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-3"></i>
+                            <span>Subject-specific skill enhancement programs</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-3"></i>
+                            <span>Technology integration in education</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-3"></i>
+                            <span>Research and publication opportunities</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g650d6c9fce6e7227a32ed0a959395fe2c2fece046a5e64c04efef3a2851ca46be0178fce09f62b97c20588b23e0cfc93154e7a82306fc222fba24e35e4f2b5be_1280.jpg" 
+                     alt="Professional Development" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-4">Want to Know More About Our Faculty?</h2>
+                <p class="lead mb-4">Connect with our academic team and learn how they can help your child succeed.</p>
+                <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

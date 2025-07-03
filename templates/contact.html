@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+                <p class="lead">Get in touch with us for any inquiries, information, or support. We're here to help!</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g37838213e5ecf4d8d0ba831b2054d2dffdf705819cdba73fd7186e098e4319b9424d1e4b8f40f98c089a5ccfade6132da61861180ec566f56521e05b5a6d54ad_1280.jpg" 
+                     alt="Contact Us" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="contact-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Visit Us</h5>
+                        <p class="text-muted mb-0">123 Education Street<br>Knowledge City, State 12345<br>India</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="contact-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-phone fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Call Us</h5>
+                        <p class="text-muted mb-0">
+                            <strong>Main Office:</strong><br>+91 123 456 7890<br>
+                            <strong>Admissions:</strong><br>+91 123 456 7891
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="contact-icon bg-warning text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-primary">Email Us</h5>
+                        <p class="text-muted mb-0">
+                            <strong>General:</strong><br>info@littleflower.edu<br>
+                            <strong>Admissions:</strong><br>admissions@littleflower.edu
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="text-center mb-5">
+                    <h2 class="display-6 fw-bold text-primary">Send Us a Message</h2>
+                    <p class="lead text-muted">We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+                </div>
+                
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Full Name *</label>
+                                    {{ form.name(class="form-control") }}
+                                    {% if form.name.errors %}
+                                        <div class="text-danger small">{{ form.name.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    {{ form.email(class="form-control") }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small">{{ form.email.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    {{ form.phone(class="form-control") }}
+                                    {% if form.phone.errors %}
+                                        <div class="text-danger small">{{ form.phone.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="subject" class="form-label">Subject *</label>
+                                    {{ form.subject(class="form-control") }}
+                                    {% if form.subject.errors %}
+                                        <div class="text-danger small">{{ form.subject.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="message" class="form-label">Message *</label>
+                                    {{ form.message(class="form-control", rows="6") }}
+                                    {% if form.message.errors %}
+                                        <div class="text-danger small">{{ form.message.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Office Hours -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="display-6 fw-bold text-primary mb-4">Office Hours</h2>
+                <p class="lead text-muted mb-4">Our office is open during the following hours for your convenience:</p>
+                
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <span class="fw-bold">Monday - Friday</span>
+                            <span class="text-muted">8:00 AM - 5:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <span class="fw-bold">Saturday</span>
+                            <span class="text-muted">9:00 AM - 2:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <span class="fw-bold">Sunday</span>
+                            <span class="text-muted">Closed</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <span class="fw-bold">Holidays</span>
+                            <span class="text-muted">Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-primary mb-3">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="{{ url_for('admissions') }}" class="text-decoration-none">
+                                    <i class="fas fa-graduation-cap text-primary me-2"></i>Admissions Information
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ url_for('resources') }}" class="text-decoration-none">
+                                    <i class="fas fa-download text-primary me-2"></i>Download Forms
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ url_for('faculty') }}" class="text-decoration-none">
+                                    <i class="fas fa-users text-primary me-2"></i>Meet Our Faculty
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ url_for('facilities') }}" class="text-decoration-none">
+                                    <i class="fas fa-building text-primary me-2"></i>Campus Facilities
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{{ url_for('library') }}" class="text-decoration-none">
+                                    <i class="fas fa-book text-primary me-2"></i>Library System
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Find Us</h2>
+            <p class="lead text-muted">Our school is conveniently located in the heart of the city</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="map-container" style="height: 400px; background: #f8f9fa; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                            <div class="text-center">
+                                <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                                <h5 class="text-primary">Interactive Map</h5>
+                                <p class="text-muted">Map integration will be available here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Common questions about contacting us</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="accordion" id="contactFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How quickly do you respond to messages?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                We typically respond to all inquiries within 24-48 hours during business days. For urgent matters, please call our main office directly.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Can I schedule a campus visit?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes! We encourage prospective families to visit our campus. Please contact our admissions office to schedule a guided tour.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What's the best way to reach you in an emergency?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                For school-related emergencies during school hours, please call our main office. For after-hours emergencies, our security team can be reached at the main number.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

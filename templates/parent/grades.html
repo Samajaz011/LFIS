@@ -1,0 +1,158 @@
+
+{% extends "parent/base.html" %}
+
+{% block title %}{{ student.first_name }}'s Grades - Parent Portal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>{{ student.first_name }} {{ student.last_name }} - Grades</h2>
+                    <p class="text-muted">{{ student.class_name }} • Roll No: {{ student.roll_number }}</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('student_detail', student_id=student.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Overview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Summary Charts -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Grade Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="gradeChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Overall Performance</h5>
+                </div>
+                <div class="card-body">
+                    {% if grades_by_subject %}
+                        {% set total_average = grades_by_subject.values() | map(attribute='average') | list | sum / grades_by_subject | length %}
+                        <div class="text-center">
+                            <div class="display-4 text-primary mb-2">{{ "%.1f"|format(total_average) }}%</div>
+                            <p class="text-muted">Overall Average</p>
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-{{ 'success' if total_average >= 80 else 'warning' if total_average >= 60 else 'danger' }}" 
+                                     style="width: {{ total_average }}%"></div>
+                            </div>
+                            <small class="text-muted">
+                                Grade: {{ 'A+' if total_average >= 90 else 'A' if total_average >= 80 else 'B' if total_average >= 70 else 'C' if total_average >= 60 else 'D' }}
+                            </small>
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                            <p>No grades available yet</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grades by Subject -->
+    {% if grades_by_subject %}
+    <div class="row">
+        {% for subject, data in grades_by_subject.items() %}
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ subject.name }}</h6>
+                    <span class="badge bg-primary">{{ "%.1f"|format(data.average) }}%</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Exam</th>
+                                    <th>Date</th>
+                                    <th>Marks</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for grade in data.grades %}
+                                <tr>
+                                    <td>{{ grade.exam_type }}</td>
+                                    <td>{{ grade.exam_date.strftime('%b %d, %Y') }}</td>
+                                    <td>{{ grade.marks_obtained }}/{{ grade.total_marks }}</td>
+                                    <td>
+                                        {% set percentage = (grade.marks_obtained / grade.total_marks * 100) %}
+                                        <span class="badge bg-{{ 'success' if percentage >= 80 else 'warning' if percentage >= 60 else 'danger' }}">
+                                            {{ "%.1f"|format(percentage) }}%
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-chart-bar fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Grades Available</h4>
+                    <p class="text-muted">Grades will appear here once teachers input them into the system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and display grade chart
+    fetch(`/parent/api/grades-chart/{{ student.id }}`)
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('gradeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Average Grade (%)',
+                        data: data.data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        });
+});
+</script>
+{% endblock %}

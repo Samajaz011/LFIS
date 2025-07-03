@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel - Little Flower International School{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Admin CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body class="admin-body">
+    {% if current_user.is_authenticated %}
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h4 class="text-white mb-0">
+                <i class="fas fa-school me-2"></i>
+                Little Flower Admin
+            </h4>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="{{ url_for('admin_dashboard') }}" class="menu-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+            </li>
+
+            <li class="menu-title">Content Management</li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_content') }}" class="menu-link {% if 'content' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-file-alt me-2"></i>School Content
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_news') }}" class="menu-link {% if 'news' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-newspaper me-2"></i>News & Updates
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_faculty') }}" class="menu-link {% if 'faculty' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-users me-2"></i>Faculty
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_gallery') }}" class="menu-link {% if 'gallery' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-images me-2"></i>Gallery
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_banners') }}" class="menu-link {% if 'banner' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-bullhorn me-2"></i>Banners
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_transfer_certificates') }}" class="menu-link {% if 'transfer_certificates' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-certificate me-2"></i>Transfer Certificates
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_documents') }}" class="menu-link {% if 'document' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-folder me-2"></i>Documents
+                </a>
+            </li>
+
+            <li class="menu-title">Communications</li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_contacts') }}" class="menu-link {% if 'contact' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-envelope me-2"></i>Contact Messages
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_admissions') }}" class="menu-link {% if 'admission' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-graduation-cap me-2"></i>Admissions
+                </a>
+            </li>
+
+            <li class="menu-title">System</li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_settings') }}" class="menu-link {% if 'settings' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-cog me-2"></i>Settings
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('index') }}" class="menu-link" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i>View Site
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('admin_logout') }}" class="menu-link text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-link sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="d-flex align-items-center">
+                    <span class="me-3">Welcome, {{ current_user.username }}!</span>
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url_for('admin_settings') }}">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin_logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {% else %}
+    <!-- Login Page Content -->
+    <div class="login-wrapper">
+        {% block login_content %}{% endblock %}
+    </div>
+    {% endif %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Admin JS -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

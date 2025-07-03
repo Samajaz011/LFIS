@@ -1,0 +1,153 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Add Content - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Add New Content</h1>
+    <a href="{{ url_for('admin_content') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Content
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="section" class="form-label">Section *</label>
+                            {{ form.section(class="form-select") }}
+                            {% if form.section.errors %}
+                                <div class="text-danger small">{{ form.section.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="order_index" class="form-label">Order Index</label>
+                            {{ form.order_index(class="form-control") }}
+                            {% if form.order_index.errors %}
+                                <div class="text-danger small">{{ form.order_index.errors[0] }}</div>
+                            {% endif %}
+                            <small class="text-muted">Lower numbers appear first</small>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="title" class="form-label">Title *</label>
+                            {{ form.title(class="form-control") }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small">{{ form.title.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="image" class="form-label">Image</label>
+                            <div class="image-upload-container border-2 border-dashed border-light rounded p-4 text-center">
+                                <div class="image-preview" style="display: none;">
+                                    <img id="image-preview" src="" alt="Preview" class="img-fluid rounded mb-3" style="max-height: 200px;">
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearImagePreview()">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">Upload Image</h5>
+                                    <p class="text-muted mb-3">Drag and drop an image here, or click to select</p>
+                                    <input type="file" id="image-input" name="image" accept="image/*" class="d-none" onchange="previewImage(this)">
+                                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('image-input').click()">
+                                        <i class="fas fa-images me-2"></i>Choose Image
+                                    </button>
+                                </div>
+                            </div>
+                            {{ form.image_url(class="form-control d-none") }}
+                            {% if form.image_url.errors %}
+                                <div class="text-danger small">{{ form.image_url.errors[0] }}</div>
+                            {% endif %}
+                            <small class="text-muted">Optional: Upload an image for this content (JPG, PNG, GIF - Max 5MB)</small>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="content" class="form-label">Content *</label>
+                            {{ form.content(class="form-control", rows="10") }}
+                            {% if form.content.errors %}
+                                <div class="text-danger small">{{ form.content.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-check">
+                                {{ form.is_active(class="form-check-input") }}
+                                <label class="form-check-label" for="is_active">
+                                    Active (visible on website)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save Content
+                                </button>
+                                <a href="{{ url_for('admin_content') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('image-preview').src = e.target.result;
+            document.querySelector('.image-preview').style.display = 'block';
+            document.querySelector('.upload-placeholder').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function clearImagePreview() {
+    document.getElementById('image-input').value = '';
+    document.querySelector('.image-preview').style.display = 'none';
+    document.querySelector('.upload-placeholder').style.display = 'block';
+}
+
+// Drag and drop functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadContainer = document.querySelector('.image-upload-container');
+    const fileInput = document.getElementById('image-input');
+    
+    uploadContainer.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadContainer.classList.add('drag-over');
+    });
+    
+    uploadContainer.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadContainer.classList.remove('drag-over');
+    });
+    
+    uploadContainer.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadContainer.classList.remove('drag-over');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && files[0].type.startsWith('image/')) {
+            fileInput.files = files;
+            previewImage(fileInput);
+        }
+    });
+});
+</script>
+{% endblock %}

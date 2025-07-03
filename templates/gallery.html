@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery - Little Flower International School{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">Gallery</h1>
+                <p class="lead">Explore our vibrant school life through these captured moments of learning, growth, and joy.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="https://pixabay.com/get/g50d79afa672bcbf8be8fdbc1419c25de1558fc1a3519970d2db0881768d7fde520629212b22afc4241530e2dd1ed54fa216cf403e4e7d0d6c4f61f0745996a9b_1280.jpg" 
+                     alt="School Gallery" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Filter -->
+<section class="py-3 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-0">Filter Gallery</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('gallery', category='all') }}" class="btn {% if current_category == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">All</a>
+                    <a href="{{ url_for('gallery', category='events') }}" class="btn {% if current_category == 'events' %}btn-primary{% else %}btn-outline-primary{% endif %}">Events</a>
+                    <a href="{{ url_for('gallery', category='facilities') }}" class="btn {% if current_category == 'facilities' %}btn-primary{% else %}btn-outline-primary{% endif %}">Facilities</a>
+                    <a href="{{ url_for('gallery', category='activities') }}" class="btn {% if current_category == 'activities' %}btn-primary{% else %}btn-outline-primary{% endif %}">Activities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="py-5">
+    <div class="container">
+        {% if gallery_items %}
+            <div class="row g-4">
+                {% for item in gallery_items %}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-fluid w-100 gallery-image" style="height: 300px; object-fit: cover; cursor: pointer;" 
+                             data-bs-toggle="modal" data-bs-target="#galleryModal{{ item.id }}">
+                        <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                            <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                                <h6 class="mb-1 fw-bold">{{ item.title }}</h6>
+                                <small class="text-light">{{ item.category.title() }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal for each image -->
+                    <div class="modal fade" id="galleryModal{{ item.id }}" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ item.title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body p-0">
+                                    <img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-fluid w-100">
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div>
+                                            <span class="badge bg-primary">{{ item.category.title() }}</span>
+                                            <small class="text-muted ms-2">{{ item.created_at.strftime('%B %d, %Y') }}</small>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <div class="empty-state">
+                    <i class="fas fa-images fa-4x text-muted mb-4"></i>
+                    <h3 class="text-muted">No Gallery Items Available</h3>
+                    <p class="text-muted">
+                        {% if current_category != 'all' %}
+                            No images found in the {{ current_category }} category.
+                        {% else %}
+                            Gallery images will be displayed here once they are uploaded by the administration.
+                        {% endif %}
+                    </p>
+                    {% if current_category != 'all' %}
+                    <a href="{{ url_for('gallery', category='all') }}" class="btn btn-primary">View All Images</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Sample Gallery (if no items exist) -->
+{% if not gallery_items %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">School Life Highlights</h2>
+            <p class="lead text-muted">A glimpse into our vibrant educational environment</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/g00f0a88de8d7dfbfaa213c8c9012d023dfae49c67b0f09143be38747e23d103d4899dec6f4927f4a21dffa007f80e49d87aa2c3f3c1a196bc6c31a77ae77d1ec_1280.jpg" 
+                         alt="Students Learning" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">Interactive Learning</h6>
+                            <small class="text-light">Activities</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/g35c329fe532ff562eac0b152e8e8cf8a44d2ca72b3f02f57c4258ead90ce685e2793ee0b3b3430ff47110c7d5d66a8530efc3e4e8fde069f83d7fc2150f55426_1280.jpg" 
+                         alt="Modern Classroom" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">Modern Classrooms</h6>
+                            <small class="text-light">Facilities</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/geab9507e39fcc7ccdb8de9252456e785a0a7b00f5254abd50d0fdd8183bb328b54b5d4bb13fd0e9b317c4386b3eeae8b0262c9c05f51094c3fb7a147dc189b45_1280.jpg" 
+                         alt="School Building" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">School Campus</h6>
+                            <small class="text-light">Facilities</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/g1f60573e512d34f3dcd2883d654b8df2e454ba828887b8a625c3723960dee5e35e5cdb0504741c208de8da6def8891c3ee64449bf5efc6b9751ab40e41a5ea16_1280.jpg" 
+                         alt="Students Activities" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">Student Activities</h6>
+                            <small class="text-light">Events</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/g0e87232324734b7ba2cb914692578be8036e3e6a5c0c0686ab9030cdb39effa1fac68945dcea2c3f9d6c288104ed9d77abecf6028a91800eef3a8cf420677208_1280.jpg" 
+                         alt="Science Lab" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">Science Laboratory</h6>
+                            <small class="text-light">Facilities</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="https://pixabay.com/get/g48458a48da9f45a316666a6485c17417194cc8c891d1a308bfc192e8118c3c9e444b09009e9a43aa15177ed638f78334_1280.jpg" 
+                         alt="Sports Day" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+                        <div class="p-3 text-white w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                            <h6 class="mb-1 fw-bold">Sports Day</h6>
+                            <small class="text-light">Events</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-4">Experience Our School</h2>
+                <p class="lead mb-4">These images capture just a glimpse of life at Little Flower International School. Visit us to experience it yourself!</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('admissions') }}" class="btn btn-light btn-lg">Apply Now</a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg">Schedule a Visit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Parent Portal - Little Flower International School{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {% block extra_css %}{% endblock %}
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 0 !important;
+        }
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .main-content {
+            min-height: 100vh;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .user-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="p-3">
+                    <!-- Logo and School Name -->
+                    <div class="text-center mb-4">
+                        <img src="{{ url_for('static', filename='images/school_logo.png') }}" alt="School Logo" class="mb-2" style="height: 60px;">
+                        <h6 class="text-white">Parent Portal</h6>
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="user-info text-center">
+                        <i class="fas fa-user-circle fa-2x mb-2"></i>
+                        <h6 class="mb-1">{{ session.parent_name }}</h6>
+                        <small class="opacity-75">Parent Account</small>
+                    </div>
+
+                    <!-- Navigation -->
+                    <nav class="nav flex-column">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'parent_dashboard' }}" href="{{ url_for('parent_dashboard') }}">
+                            <i class="fas fa-home me-2"></i>Dashboard
+                        </a>
+
+                        {% if session.parent_id %}
+                            {% set parent_students = get_parent_students(session.parent_id) %}
+                            {% if parent_students %}
+                                <div class="nav-divider my-2">
+                                    <small class="text-white-50">MY CHILDREN</small>
+                                </div>
+                                {% for student in parent_students %}
+                                <div class="student-menu mb-2">
+                                    <div class="nav-link fw-medium">
+                                        <i class="fas fa-user-graduate me-2"></i>{{ student.first_name }}
+                                    </div>
+                                    <div class="ms-3">
+                                        <a class="nav-link py-1 small" href="{{ url_for('student_detail', student_id=student.id) }}">
+                                            <i class="fas fa-eye me-2"></i>Overview
+                                        </a>
+                                        <a class="nav-link py-1 small" href="{{ url_for('student_grades', student_id=student.id) }}">
+                                            <i class="fas fa-chart-bar me-2"></i>Grades
+                                        </a>
+                                        <a class="nav-link py-1 small" href="{{ url_for('student_attendance', student_id=student.id) }}">
+                                            <i class="fas fa-calendar-check me-2"></i>Attendance
+                                        </a>
+                                        <a class="nav-link py-1 small" href="{{ url_for('student_assignments', student_id=student.id) }}">
+                                            <i class="fas fa-tasks me-2"></i>Assignments
+                                        </a>
+                                        <a class="nav-link py-1 small" href="{{ url_for('student_events', student_id=student.id) }}">
+                                            <i class="fas fa-calendar-alt me-2"></i>Activities
+                                        </a>
+                                        <a class="nav-link py-1 small" href="{{ url_for('progress_report', student_id=student.id) }}">
+                                            <i class="fas fa-chart-line me-2"></i>Reports
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+
+                        <div class="nav-divider my-2">
+                            <small class="text-white-50">QUICK LINKS</small>
+                        </div>
+                        <a class="nav-link" href="{{ url_for('contact') }}" target="_blank">
+                            <i class="fas fa-phone me-2"></i>Contact School
+                        </a>
+                        <a class="nav-link" href="{{ url_for('resources') }}" target="_blank">
+                            <i class="fas fa-download me-2"></i>Resources
+                        </a>
+                        <a class="nav-link" href="{{ url_for('index') }}" target="_blank">
+                            <i class="fas fa-globe me-2"></i>School Website
+                        </a>
+
+                        <div class="nav-divider my-3"></div>
+                        <a class="nav-link" href="{{ url_for('parent_logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Top Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="navbar-nav ms-auto">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle fa-lg me-2"></i>
+                                    {{ session.parent_name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ url_for('parent_dashboard') }}">
+                                        <i class="fas fa-home me-2"></i>Dashboard
+                                    </a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('parent_logout') }}">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Page Content -->
+                <div class="p-4">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/parent-portal.js') }}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

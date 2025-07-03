@@ -1,0 +1,466 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Slider Section -->
+{% if slider_banners %}
+<section class="hero-slider-section">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-indicators">
+            {% for banner in slider_banners %}
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ loop.index0 }}" 
+                    class="{{ 'active' if loop.first else '' }}" aria-label="Slide {{ loop.index }}"></button>
+            {% endfor %}
+        </div>
+
+        <div class="carousel-inner">
+            {% for banner in slider_banners %}
+            <div class="carousel-item {{ 'active' if loop.first else '' }}">
+                <div class="hero-slide position-relative" style="min-height: 600px; background: linear-gradient(rgba(46, 134, 171, 0.8), rgba(162, 59, 114, 0.8)), url('{{ banner.image_url or 'https://pixabay.com/get/g00f0a88de8d7dfbfaa213c8c9012d023dfae49c67b0f09143be38747e23d103d4899dec6f4927f4a21dffa007f80e49d87aa2c3f3c1a196bc6c31a77ae77d1ec_1280.jpg' }}') center/cover;">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                                <h1 class="display-4 fw-bold text-white mb-4">{{ banner.title }}</h1>
+                                <p class="lead text-white mb-4">{{ banner.message }}</p>
+                                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                                    <a href="{{ url_for('admissions') }}" class="btn btn-light btn-lg px-4 py-3">
+                                        <i class="fas fa-graduation-cap me-2"></i>Apply Now
+                                    </a>
+                                    <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                                        <i class="fas fa-info-circle me-2"></i>Learn More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+{% else %}
+<!-- Default Hero Section -->
+<section class="hero-section position-relative overflow-hidden">
+    <div class="hero-bg" style="background: linear-gradient(135deg, #2E86AB 0%, #A23B72 100%); min-height: 600px;">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold text-white mb-4">
+                        Welcome to Little Flower International School
+                    </h1>
+                    <p class="lead text-white mb-4">
+                        Nurturing young minds for a brighter future through quality education, innovative teaching, and holistic development.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{{ url_for('admissions') }}" class="btn btn-light btn-lg px-4 py-3">
+                            <i class="fas fa-graduation-cap me-2"></i>Apply Now
+                        </a>
+                        <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://pixabay.com/get/g00f0a88de8d7dfbfaa213c8c9012d023dfae49c67b0f09143be38747e23d103d4899dec6f4927f4a21dffa007f80e49d87aa2c3f3c1a196bc6c31a77ae77d1ec_1280.jpg" 
+                         alt="School Children Learning" class="img-fluid rounded-3 shadow-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Notice Board -->
+<section class="py-5 bg-gradient" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="notice-board-container">
+                    <div class="notice-board-header text-center mb-4" data-aos="fade-up">
+                        <div class="d-flex align-items-center justify-content-center mb-3">
+                            <div class="notice-icon bg-primary text-white rounded-circle me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-bullhorn fa-2x"></i>
+                            </div>
+                            <h2 class="display-6 fw-bold text-primary mb-0">Notice Board</h2>
+                        </div>
+                        <p class="lead text-muted">Important announcements and updates</p>
+                    </div>
+
+                    <div class="notice-board-content">
+                        <div class="row g-4">
+                            <!-- Flash Banner Notice -->
+                            {% if flash_banner %}
+                            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+                                <div class="notice-item bg-white rounded-3 shadow-sm p-4 h-100 border-start border-primary border-4">
+                                    <div class="d-flex align-items-start">
+                                        <div class="notice-type-icon bg-primary text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="fw-bold text-primary mb-2">{{ flash_banner.title }}</h5>
+                                            <p class="text-muted mb-3">{{ flash_banner.message }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="badge bg-primary">Flash Notice</span>
+                                                {% if flash_banner.start_date %}
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    {{ flash_banner.start_date.strftime('%B %d, %Y') }}
+                                                </small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Recent Announcements -->
+                            {% if featured_news %}
+                                {% for news in featured_news[:3] %}
+                                {% if news.category == 'announcement' %}
+                                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="{{ loop.index * 100 + 100 }}">
+                                    <div class="notice-item bg-white rounded-3 shadow-sm p-4 h-100 border-start border-success border-4">
+                                        <div class="d-flex align-items-start">
+                                            <div class="notice-type-icon bg-success text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="fas fa-megaphone"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fw-bold text-success mb-2">{{ news.title }}</h5>
+                                                <p class="text-muted mb-3">{{ news.summary or news.content[:100] }}...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-success">Announcement</span>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                        {{ news.publish_date.strftime('%B %d, %Y') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            <!-- Important Events -->
+                            {% if featured_news %}
+                                {% for news in featured_news[:2] %}
+                                {% if news.category == 'event' %}
+                                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 + 200 }}">
+                                    <div class="notice-item bg-white rounded-3 shadow-sm p-4 h-100 border-start border-warning border-4">
+                                        <div class="d-flex align-items-start">
+                                            <div class="notice-type-icon bg-warning text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="fw-bold text-warning mb-2">{{ news.title }}</h5>
+                                                <p class="text-muted mb-3">{{ news.summary or news.content[:100] }}...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-warning">Event</span>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                        {{ news.publish_date.strftime('%B %d, %Y') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            <!-- Default Notice if no content -->
+                            {% if not flash_banner and not featured_news %}
+                            <div class="col-12" data-aos="fade-up">
+                                <div class="notice-item bg-white rounded-3 shadow-sm p-5 text-center">
+                                    <div class="notice-type-icon bg-secondary text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-clipboard-list fa-2x"></i>
+                                    </div>
+                                    <h4 class="fw-bold text-secondary mb-3">No Current Notices</h4>
+                                    <p class="text-muted mb-4">Check back later for important announcements and updates.</p>
+                                    <a href="{{ url_for('news') }}" class="btn btn-outline-primary">View All News</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- View All Button -->
+                        {% if flash_banner or featured_news %}
+                        <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="400">
+                            <a href="{{ url_for('news') }}" class="btn btn-primary btn-lg px-4 py-3">
+                                <i class="fas fa-eye me-2"></i>View All Notices
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card bg-white rounded-3 p-4 shadow-sm h-100">
+                    <div class="stat-icon text-primary mb-3">
+                        <i class="fas fa-users fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary">1200+</h3>
+                    <p class="text-muted mb-0">Students</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card bg-white rounded-3 p-4 shadow-sm h-100">
+                    <div class="stat-icon text-primary mb-3">
+                        <i class="fas fa-chalkboard-teacher fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary">75+</h3>
+                    <p class="text-muted mb-0">Teachers</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card bg-white rounded-3 p-4 shadow-sm h-100">
+                    <div class="stat-icon text-primary mb-3">
+                        <i class="fas fa-trophy fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary">25+</h3>
+                    <p class="text-muted mb-0">Awards</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card bg-white rounded-3 p-4 shadow-sm h-100">
+                    <div class="stat-icon text-primary mb-3">
+                        <i class="fas fa-calendar-alt fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold text-primary">15+</h3>
+                    <p class="text-muted mb-0">Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Parent Portal Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="mb-3">
+                        <i class="fas fa-user-circle me-3"></i>Parent Portal
+                    </h2>
+                    <p class="lead mb-0">
+                        Access your child's academic progress, attendance records, assignments, and more through our secure parent portal.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="{{ url_for('parent_login') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="https://pixabay.com/get/g35c329fe532ff562eac0b152e8e8cf8a44d2ca72b3f02f57c4258ead90ce685e2793ee0b3b3430ff47110c7d5d66a8530efc3e4e8fde069f83d7fc2150f55426_1280.jpg" 
+                     alt="Modern Classroom" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2 class="display-6 fw-bold text-primary mb-4">About Our School</h2>
+                {% if about_content %}
+                    <p class="lead text-muted mb-4">{{ about_content.content[:200] }}...</p>
+                {% else %}
+                    <p class="lead text-muted mb-4">
+                        Little Flower International School is committed to providing world-class education that prepares students for the challenges of tomorrow. Our dedicated faculty and modern facilities create an environment where every student can thrive.
+                    </p>
+                {% endif %}
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Experienced Faculty</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Modern Facilities</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Small Class Sizes</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Holistic Development</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg">Learn More About Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Parent Portal Features -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2>Parent Portal Features</h2>
+                    <p class="lead text-muted">Stay connected with your child's educational journey</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                            <h5>Academic Progress</h5>
+                            <p class="text-muted">View grades, test scores, and academic performance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-check fa-2x text-success mb-3"></i>
+                            <h5>Attendance</h5>
+                            <p class="text-muted">Monitor daily attendance and punctuality</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tasks fa-2x text-warning mb-3"></i>
+                            <h5>Assignments</h5>
+                            <p class="text-muted">Track homework and project submissions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-bell fa-2x text-info mb-3"></i>
+                            <h5>Events & Updates</h5>
+                            <p class="text-muted">Stay informed about school activities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Featured News -->
+{% if featured_news %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">Latest News & Updates</h2>
+            <p class="lead text-muted">Stay informed about our school activities and achievements</p>
+        </div>
+
+        <div class="row g-4">
+            {% for news in featured_news %}
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card border-0 shadow-sm h-100">
+                    {% if news.image_url %}
+                    <img src="{{ news.image_url }}" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">{{ news.category.title() }}</span>
+                            <small class="text-muted">{{ news.publish_date.strftime('%B %d, %Y') }}</small>
+                        </div>
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text text-muted">{{ news.summary or news.content[:150] }}...</p>
+                        <a href="{{ url_for('news_detail', id=news.id) }}" class="btn btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('news') }}" class="btn btn-primary btn-lg">View All News</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Gallery Preview -->
+{% if featured_gallery %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-primary">School Life Gallery</h2>
+            <p class="lead text-muted">Capturing moments of learning, growth, and joy</p>
+        </div>
+
+        <div class="row g-4">
+            {% for item in featured_gallery %}
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="gallery-item position-relative overflow-hidden rounded-3 shadow">
+                    <img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;">
+                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center text-white">
+                            <h5 class="mb-2">{{ item.title }}</h5>
+                            <p class="mb-0">{{ item.category.title() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-lg">View Full Gallery</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="display-6 fw-bold text-white mb-4">Ready to Join Our School Family?</h2>
+                <p class="lead text-white mb-4">
+                    Take the first step towards your child's bright future. Our admissions team is ready to help you through the process.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('admissions') }}" class="btn btn-light btn-lg px-4 py-3">
+                        <i class="fas fa-graduation-cap me-2"></i>Apply for Admission
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                        <i class="fas fa-phone me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

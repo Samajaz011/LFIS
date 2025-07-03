@@ -1,0 +1,196 @@
+
+{% extends "parent/base.html" %}
+
+{% block title %}{{ student.first_name }}'s Assignments - Parent Portal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>{{ student.first_name }} {{ student.last_name }} - Assignments</h2>
+                    <p class="text-muted">{{ student.class_name }} • Roll No: {{ student.roll_number }}</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('student_detail', student_id=student.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Overview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignment Tabs -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="assignmentTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">
+                                Pending <span class="badge bg-warning ms-1">{{ pending_assignments|length }}</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="submitted-tab" data-bs-toggle="tab" data-bs-target="#submitted" type="button" role="tab">
+                                Submitted <span class="badge bg-success ms-1">{{ submitted_assignments|length }}</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="overdue-tab" data-bs-toggle="tab" data-bs-target="#overdue" type="button" role="tab">
+                                Overdue <span class="badge bg-danger ms-1">{{ overdue_assignments|length }}</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="assignmentTabContent">
+                        <!-- Pending Assignments -->
+                        <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                            {% if pending_assignments %}
+                            <div class="row">
+                                {% for assignment in pending_assignments %}
+                                <div class="col-lg-6 mb-3">
+                                    <div class="card border-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="card-title mb-0">{{ assignment.title }}</h6>
+                                                <span class="badge bg-warning">Pending</span>
+                                            </div>
+                                            <p class="text-muted small mb-2">{{ assignment.subject.name if assignment.subject else 'General' }}</p>
+                                            <p class="card-text">{{ assignment.description }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    Due: {{ assignment.due_date.strftime('%b %d, %Y') }}
+                                                </small>
+                                                <small class="text-warning">
+                                                    {% set days_left = (assignment.due_date - today).days %}
+                                                    {% if days_left > 0 %}
+                                                        {{ days_left }} day{{ 's' if days_left != 1 else '' }} left
+                                                    {% elif days_left == 0 %}
+                                                        Due today
+                                                    {% endif %}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-check-circle fa-3x mb-3"></i>
+                                <h5>No Pending Assignments</h5>
+                                <p>All assignments are up to date!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submitted Assignments -->
+                        <div class="tab-pane fade" id="submitted" role="tabpanel">
+                            {% if submitted_assignments %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Assignment</th>
+                                            <th>Subject</th>
+                                            <th>Submitted On</th>
+                                            <th>Status</th>
+                                            <th>Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for assignment in submitted_assignments %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ assignment.title }}</strong>
+                                                <br><small class="text-muted">{{ assignment.description[:50] }}...</small>
+                                            </td>
+                                            <td>{{ assignment.subject.name if assignment.subject else 'General' }}</td>
+                                            <td>{{ assignment.submission_date.strftime('%b %d, %Y') if assignment.submission_date else 'N/A' }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ 'success' if assignment.status == 'graded' else 'info' }}">
+                                                    {{ assignment.status.title() }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if assignment.grade %}
+                                                    <span class="badge bg-primary">{{ assignment.grade }}%</span>
+                                                {% else %}
+                                                    <span class="text-muted">Not graded</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-3x mb-3"></i>
+                                <h5>No Submitted Assignments</h5>
+                                <p>Submitted assignments will appear here.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Overdue Assignments -->
+                        <div class="tab-pane fade" id="overdue" role="tabpanel">
+                            {% if overdue_assignments %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Attention!</strong> The following assignments are past their due date.
+                            </div>
+                            <div class="row">
+                                {% for assignment in overdue_assignments %}
+                                <div class="col-lg-6 mb-3">
+                                    <div class="card border-danger">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="card-title mb-0">{{ assignment.title }}</h6>
+                                                <span class="badge bg-danger">Overdue</span>
+                                            </div>
+                                            <p class="text-muted small mb-2">{{ assignment.subject.name if assignment.subject else 'General' }}</p>
+                                            <p class="card-text">{{ assignment.description }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    Due: {{ assignment.due_date.strftime('%b %d, %Y') }}
+                                                </small>
+                                                <small class="text-danger">
+                                                    {% set days_overdue = (today - assignment.due_date).days %}
+                                                    {{ days_overdue }} day{{ 's' if days_overdue != 1 else '' }} overdue
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-calendar-check fa-3x mb-3"></i>
+                                <h5>No Overdue Assignments</h5>
+                                <p>Great! All assignments are on track.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add today variable to template context
+    window.today = new Date('{{ today.strftime("%Y-%m-%d") }}');
+});
+</script>
+{% endblock %}

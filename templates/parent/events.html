@@ -1,0 +1,101 @@
+
+{% extends "parent/base.html" %}
+
+{% block title %}{{ student.first_name }}'s Activities - Parent Portal{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>{{ student.first_name }} {{ student.last_name }} - Activities</h2>
+                    <p class="text-muted">{{ student.class_name }} • Roll No: {{ student.roll_number }}</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('student_detail', student_id=student.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Overview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events by Category -->
+    <div class="row">
+        {% for event_type, events in events_by_type.items() %}
+        {% if events %}
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        {% if event_type == 'Achievement' %}
+                            <i class="fas fa-trophy text-warning me-2"></i>Achievements
+                        {% elif event_type == 'Discipline' %}
+                            <i class="fas fa-exclamation-circle text-danger me-2"></i>Discipline
+                        {% elif event_type == 'Health' %}
+                            <i class="fas fa-heartbeat text-info me-2"></i>Health
+                        {% else %}
+                            <i class="fas fa-info-circle text-primary me-2"></i>General
+                        {% endif %}
+                    </h5>
+                    <span class="badge bg-secondary">{{ events|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% for event in events %}
+                    <div class="event-item mb-3 p-3 rounded border-start border-4 
+                        {% if event_type == 'Achievement' %}border-warning bg-warning-light
+                        {% elif event_type == 'Discipline' %}border-danger bg-danger-light
+                        {% elif event_type == 'Health' %}border-info bg-info-light
+                        {% else %}border-primary bg-primary-light
+                        {% endif %}">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="mb-0">{{ event.title }}</h6>
+                            <small class="text-muted">{{ event.event_date.strftime('%b %d, %Y') }}</small>
+                        </div>
+                        <p class="mb-0">{{ event.description }}</p>
+                        {% if event.teacher_name %}
+                        <small class="text-muted">
+                            <i class="fas fa-user me-1"></i>{{ event.teacher_name }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- No Events Message -->
+    {% if not events_by_type.values() | sum | length %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-calendar-alt fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No Activities Recorded</h4>
+                    <p class="text-muted">Student activities and events will appear here when recorded by teachers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.bg-warning-light { background-color: rgba(255, 193, 7, 0.1); }
+.bg-danger-light { background-color: rgba(220, 53, 69, 0.1); }
+.bg-info-light { background-color: rgba(13, 202, 240, 0.1); }
+.bg-primary-light { background-color: rgba(13, 110, 253, 0.1); }
+.event-item {
+    transition: transform 0.2s;
+}
+.event-item:hover {
+    transform: translateX(5px);
+}
+</style>
+{% endblock %}

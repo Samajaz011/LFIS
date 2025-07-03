@@ -1,0 +1,128 @@
+
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Banner - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Edit Banner</h1>
+    <a href="{{ url_for('admin_banners') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Banners
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="title" class="form-label">Banner Title *</label>
+                            {{ form.title(class="form-control") }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small">{{ form.title.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="message" class="form-label">Banner Message *</label>
+                            {{ form.message(class="form-control", rows="4") }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small">{{ form.message.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="banner_type" class="form-label">Banner Type *</label>
+                            {{ form.banner_type(class="form-select") }}
+                            {% if form.banner_type.errors %}
+                                <div class="text-danger small">{{ form.banner_type.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="style" class="form-label">Banner Style *</label>
+                            {{ form.style(class="form-select") }}
+                            {% if form.style.errors %}
+                                <div class="text-danger small">{{ form.style.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if banner.image_url %}
+                        <div class="col-12">
+                            <label class="form-label">Current Image</label>
+                            <div class="mb-3">
+                                <img src="{{ banner.image_url }}" alt="{{ banner.title }}" class="img-thumbnail" style="max-height: 200px;">
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-12">
+                            <label for="image" class="form-label">New Banner Image</label>
+                            {{ form.image(class="form-control") }}
+                            {% if form.image.errors %}
+                                <div class="text-danger small">{{ form.image.errors[0] }}</div>
+                            {% endif %}
+                            <div class="form-text">Upload a new image to replace the current one</div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="image_url" class="form-label">Image URL (Alternative)</label>
+                            {{ form.image_url(class="form-control") }}
+                            {% if form.image_url.errors %}
+                                <div class="text-danger small">{{ form.image_url.errors[0] }}</div>
+                            {% endif %}
+                            <div class="form-text">Or provide an image URL instead</div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="order_index" class="form-label">Order Index</label>
+                            {{ form.order_index(class="form-control") }}
+                            {% if form.order_index.errors %}
+                                <div class="text-danger small">{{ form.order_index.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            {{ form.start_date(class="form-control") }}
+                            {% if form.start_date.errors %}
+                                <div class="text-danger small">{{ form.start_date.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="end_date" class="form-label">End Date</label>
+                            {{ form.end_date(class="form-control") }}
+                            {% if form.end_date.errors %}
+                                <div class="text-danger small">{{ form.end_date.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-check">
+                                {{ form.is_active(class="form-check-input") }}
+                                <label class="form-check-label" for="is_active">
+                                    Active (show on website)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Update Banner
+                                </button>
+                                <a href="{{ url_for('admin_banners') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

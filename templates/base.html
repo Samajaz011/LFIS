@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Little Flower International School{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+<body>
+    <!-- Enhanced Loading Animation -->
+    <div id="loading" class="loading-overlay">
+        <!-- Loading Particles -->
+        <div class="loading-particles">
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+            <div class="loading-particle"></div>
+        </div>
+        
+        <div class="loading-spinner">
+            <div class="loading-animation">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring pulse-ring-delay-1"></div>
+                <div class="pulse-ring pulse-ring-delay-2"></div>
+                <div class="school-logo-loading">
+                    <img src="{{ url_for('static', filename='images/school_logo.png') }}" alt="Loading">
+                </div>
+            </div>
+            <div class="loading-text mt-4">
+                <h5 class="mb-2">Little Flower International School</h5>
+                <p class="mb-3 opacity-75">Excellence in Education</p>
+                <div class="loading-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Banner Modal -->
+    <div class="modal fade" id="announcementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-gradient-primary text-white border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-bullhorn me-2"></i>Important Announcement
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="text-center">
+                        {% if popup_banner %}
+                            {% if popup_banner.image_url %}
+                            <div class="announcement-image mb-3">
+                                <img src="{{ popup_banner.image_url }}" alt="{{ popup_banner.title }}" class="img-fluid rounded" style="max-height: 200px;">
+                            </div>
+                            {% else %}
+                            <div class="announcement-icon mb-3">
+                                <i class="fas fa-star text-warning fa-3x"></i>
+                            </div>
+                            {% endif %}
+                            <h4 class="fw-bold text-primary mb-3">{{ popup_banner.title }}</h4>
+                            <div class="lead text-muted mb-4">
+                                {{ popup_banner.message|safe }}
+                            </div>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="{{ url_for('admissions') }}" class="btn btn-primary">Apply Now</a>
+                                <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Us</a>
+                            </div>
+                        {% else %}
+                            <div class="announcement-icon mb-3">
+                                <i class="fas fa-star text-warning fa-3x"></i>
+                            </div>
+                            <h4 class="fw-bold text-primary mb-3">Welcome to Little Flower International School</h4>
+                            <p class="lead text-muted mb-4">
+                                Explore our world-class education system and facilities.
+                            </p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="{{ url_for('about') }}" class="btn btn-primary">Learn More</a>
+                                <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Contact Us</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- School Header with Logo -->
+    <div class="school-header bg-gradient-primary text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                    <img src="{{ url_for('static', filename='images/school_logo.png') }}" alt="Little Flower International School" class="school-logo img-fluid">
+                </div>
+                <div class="col-md-8 text-center">
+                    <h1 class="school-name mb-2">{{ settings.school_name or 'LITTLE FLOWER INTERNATIONAL SCHOOL' }}</h1>
+                    <p class="school-slogan mb-0 fst-italic">{{ settings.school_slogan or '"Children are the Eyes of Nation & Education is the Power of Eyes"' }}</p>
+                </div>
+                <div class="col-md-2 text-end">
+                    <div class="contact-info">
+                        <small>
+                            <i class="fas fa-phone me-1"></i>{{ settings.school_phone or '+1 (555) 123-4567' }}<br>
+                            <i class="fas fa-envelope me-1"></i>{{ settings.school_email or 'info@littleflower.edu' }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Bar with Social Media -->
+    <div class="top-bar bg-primary text-white py-2">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small>
+                        <i class="fas fa-map-marker-alt me-2"></i>{{ settings.school_address or '123 Education Street, Knowledge City' }}
+                    </small>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-3" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flash Banner -->
+    <div class="flash-banner bg-warning text-dark py-2">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-10">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-bullhorn me-2"></i>
+                        <marquee class="fw-bold">🎓 Admissions Open for Academic Year 2025-26! Apply Now for Limited Seats. Early Bird Discount Available!</marquee>
+                    </div>
+                </div>
+                <div class="col-md-2 text-end">
+                    <a href="{{ url_for('admissions') }}" class="btn btn-sm btn-primary">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/school_logo.png') }}" alt="Logo" class="me-2" style="height: 40px;">
+                <span class="d-none d-md-inline">LFIS</span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
+                        <ul class="dropdown-menu shadow-lg border-0 rounded-3">
+                            <li><a class="dropdown-item py-2" href="{{ url_for('about') }}">
+                                <i class="fas fa-school me-2 text-primary"></i>About Us
+                            </a></li>
+                            <li><a class="dropdown-item py-2" href="{{ url_for('faculty') }}">
+                                <i class="fas fa-users me-2 text-primary"></i>Faculty
+                            </a></li>
+                            <li><a class="dropdown-item py-2" href="{{ url_for('facilities') }}">
+                                <i class="fas fa-building me-2 text-primary"></i>Facilities
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('academics') }}">
+                            <i class="fas fa-graduation-cap me-1"></i>Academics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('admissions') }}">
+                            <i class="fas fa-user-plus me-1"></i>Admissions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('student_life') }}">
+                            <i class="fas fa-heart me-1"></i>Student Life
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('news') }}">
+                            <i class="fas fa-newspaper me-1"></i>News
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('gallery') }}">
+                            <i class="fas fa-images me-1"></i>Gallery
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="https://library-l72d.onrender.com/" target="_blank">
+                            <i class="fas fa-book me-1"></i>Library
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('transfer_certificate') }}">
+                            <i class="fas fa-certificate me-1"></i>TC
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold px-3 py-2 rounded-pill mx-1 nav-hover-effect" href="{{ url_for('contact') }}">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="navbar-nav">
+                    <a class="nav-link btn btn-outline-light rounded-pill px-3 py-2 ms-2 nav-cta-btn" href="{{ url_for('parent_login') }}">
+                        <i class="fas fa-user-circle me-1"></i>Parent Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show m-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="footer-modern position-relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="footer-bg-animation"></div>
+        
+        <!-- Main Footer Content -->
+        <div class="container position-relative">
+            <!-- Top Section -->
+            <div class="row py-5">
+                <!-- School Info -->
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand mb-4">
+                        <img src="{{ url_for('static', filename='images/school_logo.png') }}" alt="School Logo" class="footer-logo me-3">
+                        <div>
+                            <h4 class="text-white fw-bold mb-1">{{ settings.school_name or 'Little Flower International School' }}</h4>
+                            <p class="text-light-blue mb-0 small">Excellence in Education Since 1985</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-light mb-4">{{ settings.school_description or 'Nurturing young minds for a brighter future through quality education and holistic development.' }}</p>
+                    
+                    <!-- Social Media -->
+                    <div class="social-links-footer">
+                        <h6 class="text-white mb-3">Connect With Us</h6>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="social-icon facebook" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon twitter" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon instagram" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon youtube" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-icon linkedin" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white fw-bold mb-3 footer-heading">Quick Links</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ url_for('about') }}"><i class="fas fa-angle-right me-2"></i>About Us</a></li>
+                        <li><a href="{{ url_for('academics') }}"><i class="fas fa-angle-right me-2"></i>Academics</a></li>
+                        <li><a href="{{ url_for('admissions') }}"><i class="fas fa-angle-right me-2"></i>Admissions</a></li>
+                        <li><a href="{{ url_for('faculty') }}"><i class="fas fa-angle-right me-2"></i>Faculty</a></li>
+                        <li><a href="{{ url_for('facilities') }}"><i class="fas fa-angle-right me-2"></i>Facilities</a></li>
+                    </ul>
+                </div>
+
+                <!-- Student Portal -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-white fw-bold mb-3 footer-heading">Student Life</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ url_for('student_life') }}"><i class="fas fa-angle-right me-2"></i>Activities</a></li>
+                        <li><a href="{{ url_for('gallery') }}"><i class="fas fa-angle-right me-2"></i>Gallery</a></li>
+                        <li><a href="{{ url_for('news') }}"><i class="fas fa-angle-right me-2"></i>News & Events</a></li>
+                        <li><a href="{{ url_for('transfer_certificate') }}"><i class="fas fa-angle-right me-2"></i>Transfer Certificate</a></li>
+                        <li><a href="https://library-l72d.onrender.com/" target="_blank"><i class="fas fa-angle-right me-2"></i>Library</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Portals -->
+                <div class="col-lg-4 mb-4">
+                    <h6 class="text-white fw-bold mb-3 footer-heading">Get In Touch</h6>
+                    
+                    <!-- Contact Info -->
+                    <div class="contact-info-footer">
+                        <div class="contact-item mb-3">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <span>{{ settings.school_address or '123 Education Street, Knowledge City, State 12345' }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item mb-3">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <span>{{ settings.school_phone or '+1 (555) 123-4567' }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item mb-4">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <span>{{ settings.school_email or 'info@littleflower.edu' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portal Access -->
+                    <div class="portal-access">
+                        <h6 class="text-white mb-3">Portal Access</h6>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ url_for('parent_login') }}" class="btn btn-portal parent-portal">
+                                <i class="fas fa-user-circle me-2"></i>Parent Portal
+                            </a>
+                            <a href="{{ url_for('admin_login') }}" class="btn btn-portal admin-portal">
+                                <i class="fas fa-shield-alt me-2"></i>Admin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider with Gradient -->
+            <div class="footer-divider"></div>
+
+            <!-- Bottom Section -->
+            <div class="footer-bottom py-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="copyright-icon me-3">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <p class="text-light mb-0">&copy; 2024 Little Flower International School</p>
+                                <small class="text-light-blue">All rights reserved. Designed with ❤️ for education</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="footer-links-bottom">
+                            <a href="{{ url_for('resources') }}" class="footer-link-bottom">
+                                <i class="fas fa-book me-1"></i>Resources
+                            </a>
+                            <a href="{{ url_for('contact') }}" class="footer-link-bottom">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </a>
+                            <a href="#" class="footer-link-bottom">
+                                <i class="fas fa-shield-alt me-1"></i>Privacy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="footer-floating-elements">
+            <div class="floating-element floating-element-1"></div>
+            <div class="floating-element floating-element-2"></div>
+            <div class="floating-element floating-element-3"></div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Loading Animation Script -->
+    <script>
+        // Hide loading animation when page is fully loaded
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            if (loading) {
+                setTimeout(() => {
+                    loading.classList.add('hidden');
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        // Show loading animation on form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    const loading = document.getElementById('loading');
+                    if (loading) {
+                        loading.style.display = 'flex';
+                        loading.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Show popup banner only on homepage
+            {% if popup_banner %}
+            if (window.location.pathname === '/' && !sessionStorage.getItem('announcementSeen_{{ popup_banner.id }}')) {
+                setTimeout(function() {
+                    const modal = new bootstrap.Modal(document.getElementById('announcementModal'));
+                    modal.show();
+                    sessionStorage.setItem('announcementSeen_{{ popup_banner.id }}', 'true');
+                }, 2000); // Show after 2 seconds
+            }
+            {% endif %}
+        });
+    </script>
+
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

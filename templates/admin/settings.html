@@ -1,0 +1,231 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Settings - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">System Settings</h1>
+</div>
+
+<div class="row g-4">
+    <!-- General Settings -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">General Settings</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">School Name</label>
+                        <input type="text" class="form-control" name="school_name" value="{{ settings.school_name or 'Little Flower International School' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">School Email</label>
+                        <input type="email" class="form-control" name="school_email" value="{{ settings.school_email or 'info@littleflower.edu' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">School Phone</label>
+                        <input type="text" class="form-control" name="school_phone" value="{{ settings.school_phone or '+91 123 456 7890' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">School Address</label>
+                        <textarea class="form-control" name="school_address" rows="3">{{ settings.school_address or '123 Education Street, Knowledge City' }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update General Settings
+                    </button>
+                </form>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">School Address</label>
+                        <textarea class="form-control" name="setting_school_address" rows="3">123 Education Street, Knowledge City, State 12345, India</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Library System -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Library System Integration</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Library System URL</label>
+                        <input type="url" class="form-control" name="setting_library_url" placeholder="https://library.example.com">
+                        <small class="text-muted">URL to your library management system</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Library System Name</label>
+                        <input type="text" class="form-control" name="setting_library_name" placeholder="School Library System">
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="setting_library_enabled" value="1">
+                        <label class="form-check-label">
+                            Enable Library Link in Navigation
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Library Settings
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Social Media -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Social Media Links</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Facebook URL</label>
+                        <input type="url" class="form-control" name="facebook_url" placeholder="https://facebook.com/yourschool">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Twitter URL</label>
+                        <input type="url" class="form-control" name="twitter_url" placeholder="https://twitter.com/yourschool">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Instagram URL</label>
+                        <input type="url" class="form-control" name="instagram_url" placeholder="https://instagram.com/yourschool">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">YouTube URL</label>
+                        <input type="url" class="form-control" name="youtube_url" placeholder="https://youtube.com/yourschool">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Social Links
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Information -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">System Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="border rounded p-3 text-center">
+                            <div class="h5 text-primary mb-1">{{ stats.total_news }}</div>
+                            <small class="text-muted">News Articles</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3 text-center">
+                            <div class="h5 text-success mb-1">{{ stats.total_faculty }}</div>
+                            <small class="text-muted">Faculty Members</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3 text-center">
+                            <div class="h5 text-warning mb-1">{{ stats.total_documents }}</div>
+                            <small class="text-muted">Documents</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3 text-center">
+                            <div class="h5 text-info mb-1">{{ stats.total_gallery }}</div>
+                            <small class="text-muted">Gallery Images</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>System Version</span>
+                    <span class="badge bg-primary">v1.0.0</span>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Last Backup</span>
+                    <span class="text-muted">Never</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Maintenance -->
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Maintenance & Tools</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-primary w-100" onclick="clearCache()">
+                            <i class="fas fa-broom me-2"></i>Clear Cache
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-success w-100" onclick="backupData()">
+                            <i class="fas fa-download me-2"></i>Backup Data
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-warning w-100" onclick="exportData()">
+                            <i class="fas fa-file-export me-2"></i>Export Data
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-info w-100" target="_blank">
+                            <i class="fas fa-external-link-alt me-2"></i>View Website
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function clearCache() {
+    if (confirm('Clear system cache? This may temporarily slow down the website.')) {
+        alert('Cache clearing functionality will be implemented');
+    }
+}
+
+function backupData() {
+    if (confirm('Create a backup of all data?')) {
+        alert('Backup functionality will be implemented');
+    }
+}
+
+function exportData() {
+    if (confirm('Export all data to CSV/JSON format?')) {
+        alert('Export functionality will be implemented');
+    }
+}
+</script>
+{% endblock %}
